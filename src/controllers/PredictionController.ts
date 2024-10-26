@@ -1,4 +1,3 @@
-import { Command } from "../classes/logic/Command";
 import { PlayerState } from "../classes/logic/PlayerState";
 import { PlayerContainer } from "../classes/pixi/PlayerContainer";
 import { SelfContainer } from "../classes/pixi/SelfContainer";
@@ -48,7 +47,7 @@ export class PredictionController {
                 pc.setMovState(update);
 
                 while (predId < this.curPredId - 1) {
-                    const c = cc.getCommand(predId)!;
+                    const c = cc.getActCommand(predId)!;
 
                     if (c.right) {
                         pc.rotateRight();

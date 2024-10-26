@@ -1,8 +1,6 @@
-import { PlayerState } from "./PlayerState";
-
-export class Command {
-    // Command0 + State0 = State1
-    cid: number; 
+export class ActCommand {   // same as old Command
+    // ActCommand0 + State0 = State1
+    cid: number;
     
     right: boolean;
     left: boolean;

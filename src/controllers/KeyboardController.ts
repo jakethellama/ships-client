@@ -1,22 +1,15 @@
-const keyToInputMap = {
-    KeyA: 'left',
-    KeyD: 'right',
-    KeyW: 'forward',
-    KeyS: 'brake',
-    Space: 'fire',
-};
+import { KeyCommand } from "../classes/logic/KeyCommand";
 
 export class KeyboardController {
     state;
     
     constructor() {
         this.state = {
-            left: { pressed: false },
-            right: { pressed: false },
-            forward: { pressed: false },
-            brake: { pressed: false },
-            fire: { pressed: false },
-
+            KeyA: { isPressed: false, firstDown: false, up: false },
+            KeyD: { isPressed: false, firstDown: false, up: false },
+            KeyW: { isPressed: false, firstDown: false, up: false },
+            KeyS: { isPressed: false, firstDown: false, up: false },
+            Space: { isPressed: false, firstDown: false, up: false },
         };
 
         window.addEventListener('keydown', (event) => { this.handleKeyDown(event); });
@@ -24,12 +17,20 @@ export class KeyboardController {
     }
 
     handleKeyDown(event: KeyboardEvent): void {
-        const input: string = keyToInputMap[event.code as keyof typeof keyToInputMap];
-        if (input) this.state[input as keyof typeof this.state].pressed = true;
+        const key = this.state[event.code as keyof typeof this.state];
+
+        if (key && !key.isPressed) {
+            key.isPressed = true;
+            key.firstDown = true;
+        }
     }
 
     handleKeyUp(event: KeyboardEvent): void {
-        const input = keyToInputMap[event.code as keyof typeof keyToInputMap];
-        if (input) this.state[input as keyof typeof this.state].pressed = false;
+        const key = this.state[event.code as keyof typeof this.state];
+
+        if (key) {
+            key.isPressed = false;
+            key.up = true;
+        }
     }
 }

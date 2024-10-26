@@ -1,10 +1,10 @@
-import { Command } from "./Command";
+import { KeyCommand } from "./KeyCommand";
 
 export class Packet {
-    commands: Command[]; 
+    keyCommands: KeyCommand[]; 
 
     constructor() {
-        this.commands = [];
+        this.keyCommands = [];
 
     }
 }

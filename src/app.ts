@@ -1,17 +1,8 @@
-
-import {
-    Application, Assets, Sprite, SCALE_MODES, Graphics,
-    Point, Text, TextStyle, FillGradient,
-} from './pixi.mjs';
-import {
-    KeyboardController,
-} from './controllers/KeyboardController';
+import { Application, Assets, Sprite, Point } from './pixi.mjs';
+import { KeyboardController } from './controllers/KeyboardController';
 import { Packet } from './classes/logic/Packet';
-import { Command } from './classes/logic/Command';
 import { CommandController } from './controllers/CommandController';
 import { PredictionController } from './controllers/PredictionController';
-import { PlayerState } from './classes/logic/PlayerState';
-import { PlayerContainer } from './classes/pixi/PlayerContainer';
 import { LobbyController } from './controllers/LobbyController';
 import { InterpController } from './controllers/InterpController';
 import { setCustomInterval, clearCustomInterval } from './utils';
@@ -179,25 +170,29 @@ const initGame = (pid: number, app: _Application, ws: WebSocket, shipAssets, tc:
 const startGame = (cc: CommandController, kc: KeyboardController, selfContainer: SelfContainer, enemyContainer: EnemyContainer, pc: PredictionController, ws: WebSocket, app: _Application) => {
     setCustomInterval(() => {
         // sampling input and making movement predictions
-        const command = cc.makeCommand();
+        const keyCommand = cc.makeKeyCommand(kc);
+
+        cc.addKeyCommandToPacket(keyCommand);
+
+        const actCommand = cc.makeActCommand();
     
-        if (kc.state.right.pressed) {
-            command.right = true;
+        if (kc.state.KeyD.isPressed) {
+            actCommand.right = true;
             selfContainer.rotateRight();
         }
-        if (kc.state.left.pressed) {
-            command.left = true;
+        if (kc.state.KeyA.isPressed) {
+            actCommand.left = true;
             selfContainer.rotateLeft();
         }
-        if (kc.state.forward.pressed) {
-            command.forward = true;
+        if (kc.state.KeyW.isPressed) {
+            actCommand.forward = true;
             selfContainer.moveForward();
             selfContainer.showBoost();
         } else {
             selfContainer.hideBoost();
         }
-        if (kc.state.brake.pressed) {
-            command.brake = true;
+        if (kc.state.KeyS.isPressed) {
+            actCommand.brake = true;
             selfContainer.moveBackward();
             selfContainer.showBoost();
         }
@@ -205,18 +200,16 @@ const startGame = (cc: CommandController, kc: KeyboardController, selfContainer:
     
         selfContainer.updateLocalTransform();
 
-        if (kc.state.fire.pressed && selfContainer.isAlive) {
-            command.fire = true;
+        if (kc.state.Space.isPressed && selfContainer.isAlive) {
+            actCommand.fire = true;
         }
-
-        cc.addCommandToPacket(command);
     
         pc.savePrediction(selfContainer);
     }, 15);
 
     app.ticker.add(() => {
         // this is for things that are purely visual client side
-        if (kc.state.fire.pressed && selfContainer.isAlive) {
+        if (kc.state.Space.isPressed && selfContainer.isAlive) {
             selfContainer.showLaser(enemyContainer);
         } else {
             selfContainer.hideLaser();
