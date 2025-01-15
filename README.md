@@ -21,4 +21,8 @@ npm run build
 
 ---
 
-#### [Ships Server Repo](https://github.com/jakethellama/ships-server)
+#### <ins>[Ships Server Repo](https://github.com/jakethellama/ships-server)</ins>
+
+[Valve Article](https://developer.valvesoftware.com/wiki/Source_Multiplayer_Networking)
+
+[Gambetta Article](https://www.gabrielgambetta.com/client-server-game-architecture.html)
