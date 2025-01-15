@@ -6,7 +6,7 @@ import { PredictionController } from './controllers/PredictionController';
 import { LobbyController } from './controllers/LobbyController';
 import { InterpController } from './controllers/InterpController';
 import { setCustomInterval, clearCustomInterval } from './utils';
-import { sendWithLatency } from './utils';
+import { sendWithLatency, WSIP } from './utils';
 import { EnemyContainer } from './classes/pixi/EnemyContainer';
 import { SelfContainer } from './classes/pixi/SelfContainer';
 import { TextController } from './controllers/TextController';
@@ -31,7 +31,7 @@ import { TextController } from './controllers/TextController';
 
     tc.displayText("Connecting...");
 
-    const ws = new WebSocket('ws://localhost:8080');
+    const ws = new WebSocket('ws://' + WSIP + ':8080');
     
     ws.addEventListener('open', () => {
         console.log('Websocket Connected');

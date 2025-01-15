@@ -1,3 +1,6 @@
+const EXTRAPING = 0;
+export const WSIP = 'localhost';
+
 // @ts-ignore
 export function setCustomInterval(fn, ms: number): number {
     const on = [true];
@@ -29,9 +32,14 @@ function customLoop(next: number, fn, ms: number, on: (boolean | NodeJS.Timeout)
 }
 
 export const sendWithLatency = (ws: WebSocket, type: string, payload: object): void => {
-    setTimeout(() => {
+    // @ts-ignore
+    if (EXTRAPING === 0) {
         ws.send(JSON.stringify({ type, payload }));
-    }, 100 / 2);
+    } else {
+        setTimeout(() => {
+            ws.send(JSON.stringify({ type, payload }));
+        }, EXTRAPING / 2);
+    } 
 };
 
 export const closeEnough = function (x: number, y: number): boolean {

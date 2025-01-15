@@ -25,7 +25,7 @@ export class EnemyContainer extends PlayerContainer {
             laser.lineTo(hitPointL.x, hitPointL.y + 30);
         }
 
-        laser.stroke({ width: 1, color: 'red' });
-        laser.alpha = 0.6;
+        laser.stroke({ width: 1, color: '#ff1100' });
+        laser.alpha = 0.86;
     }
 }
